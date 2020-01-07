@@ -56,6 +56,8 @@ items:
                   protocol: TCP
                 - containerPort: 9411
                   protocol: TCP
+                - containerPort: 14250
+                  protocol: TCP
               readinessProbe:
                 httpGet:
                   path: "/"
@@ -101,6 +103,10 @@ items:
       port: 9411
       protocol: TCP
       targetPort: 9411
+    - name: jaeger-collector-grpc
+      port: 14250
+      protocol: TCP
+      targetPort: 14250
     selector:
       app.kubernetes.io/name: jaeger
       app.kubernetes.io/component: all-in-one
