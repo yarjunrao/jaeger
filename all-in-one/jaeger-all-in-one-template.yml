@@ -34,8 +34,8 @@ items:
           app.kubernetes.io/name: jaeger
           app.kubernetes.io/component: all-in-one
         annotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/port: "16686"
+      #    prometheus.io/scrape: "true"
+      #    prometheus.io/port: "16686"
       spec:
           containers:
           -   env:
@@ -55,7 +55,7 @@ items:
                 - containerPort: 16686
                   protocol: TCP
                 - containerPort: 9411
-                  protocol: TCP
+                  protocol: 
                 - containerPort: 14250
                   protocol: TCP
               readinessProbe:
@@ -99,18 +99,18 @@ items:
       port: 14268
       protocol: TCP
       targetPort: 14268
+    - name: jaeger-collector-grc
+      port: 14250
+      protocol: TCP
+      targetPort: 14250
     - name: jaeger-collector-zipkin
       port: 9411
       protocol: TCP
       targetPort: 9411
-    - name: jaeger-collector-grpc
-      port: 14250
-      protocol: TCP
-      targetPort: 14250
     selector:
       app.kubernetes.io/name: jaeger
       app.kubernetes.io/component: all-in-one
-    type: ClusterIP
+    type: LoadBalancer
 - apiVersion: v1
   kind: Service
   metadata:
@@ -155,8 +155,11 @@ items:
       port: 9411
       protocol: TCP
       targetPort: 9411
+    - name: jaeger-collector-grpc
+      port: 14250
+      protocol: TCP
+      targetPort: 14250
     clusterIP: None
     selector:
       app.kubernetes.io/name: jaeger
       app.kubernetes.io/component: all-in-one
-
